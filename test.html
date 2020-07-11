@@ -1,0 +1,33 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+<div id="html"></div>
+</body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/ts.js"></script>
+<script>
+	function trans(text,from,to){
+		var tk=gettk(text,'442788.2585626513');
+		//console.log(tk);
+		var http = (window.location.protocol === 'http:' ? 'http:' : 'https:');
+		$.post(http + '//cors-anywhere.herokuapp.com/'+'https://translate.google.cn/translate_a/single?client=webapp&sl='+from+'&tl='+to+'&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=sos&dt=ss&dt=t&otf=1&ssel=0&tsel=0&tk='+tk+'&q='+text,{ q : text },function(data, textStatus){
+			console.log(data[0][0][0]);
+		});
+	};
+	$(document).ready(function(){ 
+		trans("apple","AUTO","zh-CN");
+	}); 
+</script>
+</html>

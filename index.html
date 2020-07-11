@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>翻译 - By hlwdy</title>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<link rel="stylesheet" href="css/select-mania.css">
+	<script type="text/javascript" src="js/select-mania.js"></script>
+	<link href="css/select-mania-theme-darkblue.css" rel="stylesheet">
+	<script type="text/javascript" src="js/ts.js"></script>
+	<script type="text/javascript" src="js/trans.js"></script>
+</head>
+<style>
+input[type="button"], input[type="submit"], input[type="reset"],input[type="text"],textarea,select {
+	-webkit-appearance: none;
+}
+.cbutton:hover{
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=80);
+	opacity: 0.8;
+	-moz-opacity: 0.8;
+}
+#footer {
+	left:0px;
+	height: 40px;
+	line-height: 40px;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+	background: #f0f0f2;
+	color: #9e9e9e;
+	font-family: Arial;
+	font-size: 10px;
+	letter-spacing: 1px;
+	z-index:20;
+}
+#num {
+	color:black;
+}
+select {
+	border-radius:10px;
+	line-height:30px;
+	width:20%;
+	border:1px solid #9bc0dd;
+	padding-left:10px;
+	outline:none;
+	font-size:15px;
+}
+ol {
+	list-style-type:none;
+}
+textarea{
+	width: 44%;
+	border: 0px solid #ccc;
+	padding: 1.5%;
+	outline:medium;
+	border-radius: 8px;
+	padding-left:2%;
+	border-width: 0px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 6px rgba(102,175,233,.6);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 15px rgba(0,0,0,.2);
+	font-size:19px;
+	resize:none;
+}
+.select-mania-value-text,.select-mania-item-text{
+	font-size:15px;
+}
+#tt{
+	margin-left:15px;
+	font-size:17px;
+}
+#tlst{
+	margin-bottom:5px;
+}
+@media (prefers-color-scheme: dark) {
+	body {
+		background-color: #272727;
+		color: white;
+	}
+	#search-input,#res,#output1,#output2 {
+		background: #4B4B4B;
+		color:white;
+	}
+	#pp,#num {
+		color:white;
+	}
+	#tls{
+		color:white !important;
+	}
+	#tlst{
+		color: rgb(190,190,190) !important;
+	}
+	#footer{
+		background: #1d1d1d;
+	}
+	.select-mania-dropdown,.select-mania{
+		background: #4B4B4B;
+	}
+	.select-mania-search-input{
+		border: 1px solid #616060  !important;
+		color: #a2a2a2  !important;
+	}
+}
+</style>
+<body>
+<form action="/translate" method="get">
+<script>
+$(document).ready(function(){
+	document.getElementById('output1').hidden = true;
+	document.getElementById('output2').hidden = true;
+});
+function getPar(par){
+	var local_url = document.location.href; 
+	var get = local_url.indexOf(par +"=");
+	if(get == -1){
+		return false;   
+	}   
+	var get_par = local_url.slice(par.length + get + 1);    
+	var nextPar = get_par.indexOf("&");
+	if(nextPar != -1){
+		get_par = get_par.slice(0, nextPar);
+	}
+	return get_par;
+}
+$(function(){ 
+	var charCount = document.querySelector('#num');
+	if(document.location.href.indexOf('#from')!=-1||document.location.href.indexOf('#to')!=-1||document.location.href.indexOf('#q')!=-1){
+		$('#search-input').html(getPar('q'));
+		charCount.textContent = $('#search-input').html().length+'/5000';
+		set_select_checked('from', getPar('from'));
+		set_select_checked('to', getPar('to'));
+		$('#res').val('.....');
+		reload();
+	}
+}); 
+function set_select_checked(selectId, checkValue){
+    var select = document.getElementById(selectId);
+    for (var i = 0; i < select.options.length; i++){  
+        if (select.options[i].value == checkValue){
+            select.options[i].selected = true;  
+            break;  
+        }
+    }  
+}
+</script>
+<script>
+$(document).ready(function(){
+$('#from').selectMania({
+	themes: ['darkblue'],
+	width: '20%',
+	search: true,
+});
+$('#to').selectMania({
+	themes: ['darkblue'],
+	width: '20%',
+	search: true,
+});
+});
+</script>
+<header style="width:100%;">
+<span style="font-size:14px;margin-left:4%;" id="pp">源语言</span>
+<select id="from" name="from"> 
+<option value="auto">自动检测</option> 
+<option value="zh-CN">中文简体</option>
+<option value="zh-TW">中文繁体</option>
+<option value="en">英文</option> 
+<option value="ja">日语</option> 
+<option value="de">德语</option> 
+<option value="fr">法语</option>
+<option value="ru">俄语</option>
+<option value="ko">韩语</option>
+<option value="es">西班牙语</option>
+<option value="pt">葡萄牙语</option>
+<option value="it">意大利语</option>
+<option value="vi">越南语</option>
+<option value="id">印尼语</option>
+<option value="ar">阿拉伯语</option>
+<option value="af">南非语</option>
+<option value="be">白俄罗斯语</option>
+<option value="bg">保加利亚语</option>
+<option value="ca">加泰罗尼亚语</option>
+<option value="cs">捷克语</option>
+<option value="cy">威尔士语</option>
+<option value="da">丹麦语</option>
+<option value="el">希腊语</option>
+<option value="eo">世界语</option>
+<option value="et">爱沙尼亚语</option>
+<option value="fa">波斯语</option>
+<option value="fi">芬兰语</option>
+<option value="ga">爱尔兰语</option>
+<option value="gl">加利西亚语</option>
+<option value="hr">克罗地亚语</option>
+<option value="hu">匈牙利语</option>
+<option value="hi">印度语</option>
+<option value="is">冰岛语</option>
+<option value="iw">希伯来语</option>
+<option value="la">拉丁语</option>
+<option value="lt">立陶宛语</option>
+<option value="lv">拉脱维亚语</option>
+<option value="mk">马其顿语</option>
+<option value="ms">马来语</option>
+<option value="mt">马耳他语</option>
+<option value="nl">荷兰语</option>
+<option value="no">挪威语</option>
+<option value="pl">波兰语</option>
+<option value="ro">罗马尼亚语</option>
+<option value="sk">斯洛伐克语</option>
+<option value="sl">斯洛维尼亚语</option>
+<option value="sq">阿尔巴尼亚语</option>
+<option value="sr">塞尔维亚语</option>
+</select>
+<span style="font-size:14px;margin-left:15%;" id="pp">翻译语言</span>
+<select id="to" name="to"> 
+<option value="zh-CN">中文简体</option>
+<option value="zh-TW">中文繁体</option>
+<option value="en">英文</option> 
+<option value="ja">日语</option> 
+<option value="de">德语</option> 
+<option value="fr">法语</option>
+<option value="ru">俄语</option> 
+<option value="ko">韩语</option>
+<option value="es">西班牙语</option>
+<option value="pt">葡萄牙语</option>
+<option value="it">意大利语</option>
+<option value="vi">越南语</option>
+<option value="id">印尼语</option>
+<option value="ar">阿拉伯语</option>
+<option value="af">南非语</option>
+<option value="be">白俄罗斯语</option>
+<option value="bg">保加利亚语</option>
+<option value="ca">加泰罗尼亚语</option>
+<option value="cs">捷克语</option>
+<option value="cy">威尔士语</option>
+<option value="da">丹麦语</option>
+<option value="el">希腊语</option>
+<option value="eo">世界语</option>
+<option value="et">爱沙尼亚语</option>
+<option value="fa">波斯语</option>
+<option value="fi">芬兰语</option>
+<option value="ga">爱尔兰语</option>
+<option value="gl">加利西亚语</option>
+<option value="hr">克罗地亚语</option>
+<option value="hu">匈牙利语</option>
+<option value="hi">印度语</option>
+<option value="is">冰岛语</option>
+<option value="iw">希伯来语</option>
+<option value="la">拉丁语</option>
+<option value="lt">立陶宛语</option>
+<option value="lv">拉脱维亚语</option>
+<option value="mk">马其顿语</option>
+<option value="ms">马来语</option>
+<option value="mt">马耳他语</option>
+<option value="nl">荷兰语</option>
+<option value="no">挪威语</option>
+<option value="pl">波兰语</option>
+<option value="ro">罗马尼亚语</option>
+<option value="sk">斯洛伐克语</option>
+<option value="sl">斯洛维尼亚语</option>
+<option value="sq">阿尔巴尼亚语</option>
+<option value="sr">塞尔维亚语</option>
+</select>
+<input type="button" class="cbutton" value="朗读" style="width: 12%;outline: none;background: #0b81b5;color: white;border-radius: 8px;border-width: 0px;height: 40px;cursor: pointer;
+-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 6px rgba(102,175,233,.6);box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(0,0,0,.2)" onclick="TTS()">
+<p></p>
+<textarea type="text" name="q" rows=12 id="search-input" autocomplete="off" placeholder="输入要翻译的文本" style="margin-left:2%;float:left;"></textarea>
+<textarea type="text" rows=12 id="res" readonly="readonly" autocomplete="off" placeholder="翻译" style="margin-right:2%;float:right;"></textarea>
+</header>
+<div style="width:100%;min-height:1px;margin-bottom:10px;">
+<div id="num" style="float:left;width:48%;text-align:right;">0/5000</div>
+</div>
+<div style="min-height:1px;width:100%;float:right"><div>
+<script>
+  var text = document.querySelector('#search-input');
+  var charCount = document.querySelector('#num');
+  text.addEventListener('input', function () {
+    charCount.textContent = $('#search-input').val().length+'/5000';
+  }, false);
+  </script>
+<div id="output1" style="padding:11px;border-radius:10px;margin:15px;width:calc(48% - 30px);float:left;
+-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 6px rgba(102,175,233,.6);box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(0,0,0,.2);">
+<ol>
+</ol>
+</div>
+<div id="output2" style="padding:11px;border-radius:10px;margin:15px;width:calc(48% - 30px);float:right;
+-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 6px rgba(102,175,233,.6);box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(0,0,0,.2);">
+</div>
+<div style="margin-bottom:80px;min-height:1px;width:100%;float:right"><div>
+</form>
+<div id="ttts_div_id">
+    <audio id="tts_autio_id" autoplay="autoplay">
+	<source id="tts_source_id" src="">
+	<embed id="tts_embed_id" height="0" width="0" src="">
+	</audio>
+</div>
+<div id="footer">By hlwdy</div>
+</body>
+</html>
