@@ -43,6 +43,7 @@ function reload(){
 			for(var i=0; i < len; i++){
 				htmlT+='<li style="font-size:15px;" id="tlst">'+(i+1)+'. '+data[13][0][i][0]+'</li>';
 			}
+			htmlT=htmlT+'</ol>';
 		}
 		$('#output2').html(htmlT);
 		document.getElementById('output1').hidden = false;
