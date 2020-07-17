@@ -1,5 +1,6 @@
 function reload(){
 	text=$('#search-input').val();
+	document.getElementById('corr').hidden = true;
 	if(text.trim()==''){
 		document.getElementById('output1').hidden = true;
 		document.getElementById('output2').hidden = true;
@@ -13,6 +14,10 @@ function reload(){
 		res=data[0][0][0];
 		$('#res').val(res);
         self.location='#from='+$('#from').val()+'&to='+$('#to').val()+'&q='+$('#search-input').val();
+		if(typeof(data[7][0])!="undefined"){
+			$('#corr').html('显示以下内容的翻译：<a href="javascript:corr_to(\''+data[7][1]+'\');">'+data[7][0]+'</a>');
+			document.getElementById('corr').hidden = false;
+		}
 		if(data[1]==null){
 			document.getElementById('output1').hidden = true;
 			document.getElementById('output2').hidden = true;
@@ -82,3 +87,12 @@ function TTS(){
 	ttsAudio = document.getElementById('tts_autio_id');
 	ttsAudio.play();
 }
+function corr_to(text){
+	$('#search-input').val(text);
+	$('#res').val('.....');
+	reload();
+}
+$(window).scroll(function() {
+	var scrollTop=document.documentElement.scrollTop || document.body.scrollTop;
+	document.getElementById('corr').style.top='calc(5% + 330px - '+String(scrollTop)+'px)';
+})

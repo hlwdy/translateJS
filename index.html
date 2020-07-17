@@ -73,6 +73,16 @@ textarea{
 #tlst{
 	margin-bottom:5px;
 }
+#corr{
+	position: fixed;
+	float:left;
+	width:48%;
+	left:calc(2% + 40px);
+	top:calc(5% + 330px);
+}
+a{
+	color:#6dd0ff;
+}
 @media (prefers-color-scheme: dark) {
 	body {
 		background-color: #272727;
@@ -109,6 +119,7 @@ textarea{
 $(document).ready(function(){
 	document.getElementById('output1').hidden = true;
 	document.getElementById('output2').hidden = true;
+	document.getElementById('corr').hidden = true;
 });
 function getPar(par){
 	var local_url = document.location.href; 
@@ -126,7 +137,7 @@ function getPar(par){
 $(function(){ 
 	var charCount = document.querySelector('#num');
 	if(document.location.href.indexOf('#from')!=-1||document.location.href.indexOf('#to')!=-1||document.location.href.indexOf('#q')!=-1){
-		$('#search-input').html(getPar('q'));
+		$('#search-input').html(unescape(getPar('q')));
 		charCount.textContent = $('#search-input').html().length+'/5000';
 		set_select_checked('from', getPar('from'));
 		set_select_checked('to', getPar('to'));
@@ -266,6 +277,7 @@ $('#to').selectMania({
 <textarea type="text" name="q" rows=12 id="search-input" autocomplete="off" placeholder="输入要翻译的文本" style="margin-left:2%;float:left;"></textarea>
 <textarea type="text" rows=12 id="res" readonly="readonly" autocomplete="off" placeholder="翻译" style="margin-right:2%;float:right;"></textarea>
 </header>
+<div id="corr"></div>
 <div style="width:100%;min-height:1px;margin-bottom:10px;">
 <div id="num" style="float:left;width:48%;text-align:right;">0/5000</div>
 </div>
